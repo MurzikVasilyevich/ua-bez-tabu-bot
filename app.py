@@ -55,7 +55,7 @@ def main():
             await bot.reply_to(message,
                                "Не знайдено такого синоніму. Спробуйте ще раз.")
 
-    asyncio.run(bot.polling())
+    asyncio.run(bot.infinity_polling())
 
 
 if __name__ == '__main__':
