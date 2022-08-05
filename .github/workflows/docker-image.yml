@@ -3,8 +3,8 @@ name: py
 on:
  repository_dispatch:
  workflow_dispatch:
-# schedule:
-#    - cron: '*/15 * * * *'
+ schedule:
+   - cron: '*/30 * * * *'
 
 jobs:
   build:
@@ -12,6 +12,10 @@ jobs:
     environment: first
 
     steps:
+      - name: Cancel Previous Workflow Runs
+        uses: n1hility/cancel-previous-runs@v2.0
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner.
       - name: setup python
