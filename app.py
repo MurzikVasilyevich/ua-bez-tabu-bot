@@ -19,6 +19,7 @@ def main():
     df = pd.read_csv(url, index_col=0)
     bot = AsyncTeleBot(os.environ['TELEGRAM_TOKEN'])
 
+
     columns = 5
     terms = df['term_emoji'].dropna().unique()
     synonyms = df['synonym'].dropna().unique()
@@ -55,8 +56,8 @@ def main():
             await bot.reply_to(message,
                                "Не знайдено такого синоніму. Спробуйте ще раз.")
 
-    asyncio.run(bot.polling())
+    asyncio.run(bot.infinity_polling())
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
