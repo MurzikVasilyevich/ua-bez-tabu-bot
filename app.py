@@ -21,6 +21,7 @@ def main():
 
     columns = 5
     terms = df['term_emoji'].dropna().unique()
+    synonyms = df['synonym'].dropna().unique()
     terms_split = [list(i) for i in np.array_split(terms, columns)]
     markup = types.ReplyKeyboardMarkup(row_width=columns, resize_keyboard=True)
     # loop enumerate terms
@@ -40,9 +41,19 @@ def main():
     # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
     @bot.message_handler(func=lambda message: True)
     async def echo_message(message):
-        logging.info(f"Echoing {message.chat.first_name} - {message.chat.last_name} - {message.chat.username}")
-        df1 = df.loc[df['term_emoji'] == message.text]
-        await bot.send_message(message.chat.id, df1.sample(1).iloc[0]['synonym'], reply_markup=markup)
+        logging.info(f"Echoing {message.chat.username} to {message.text}")
+        if message.text in terms:
+            await bot.reply_to(message,
+                               df.loc[df['term_emoji'] == message.text].sample(1).iloc[0]['synonym'],
+                               reply_markup=markup)
+        elif message.text in list(synonyms):
+            term = df.loc[df['synonym'] == message.text].iloc[0]['term_emoji']
+            await bot.reply_to(message,
+                               df.loc[df['term_emoji'] == term].sample(1).iloc[0]['synonym'],
+                               reply_markup=markup)
+        else:
+            await bot.reply_to(message,
+                               "Не знайдено такого синоніму. Спробуйте ще раз.")
 
     asyncio.run(bot.polling())
 
