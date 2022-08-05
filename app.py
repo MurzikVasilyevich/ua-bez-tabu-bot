@@ -46,7 +46,7 @@ def main():
             await bot.reply_to(message,
                                df.loc[df['term_emoji'] == message.text].sample(1).iloc[0]['synonym'],
                                reply_markup=markup)
-        elif message.text in list(synonyms):
+        elif message.text.lower() in list(synonyms):
             term = df.loc[df['synonym'] == message.text.lower()].iloc[0]['term']
             await bot.reply_to(message,
                                df.loc[df['term'] == term].sample(1).iloc[0]['synonym'],
