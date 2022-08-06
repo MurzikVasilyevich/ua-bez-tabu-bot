@@ -35,8 +35,9 @@ def main():
     async def send_welcome(message):
         logging.info(f"Welcoming {message.chat.first_name} {message.chat.last_name} - {message.chat.username}")
         await bot.reply_to(message, """\
-    Привіт! Я бот, який покаже вам наскільки різноманітною може бути Українська мова.
-    Натисніть на кнопку, аби подивитись синоніми.\
+Привіт! Я бот, який покаже вам наскільки різноманітною може бути Українська мова.
+Бот дозволяє отримувати синоніми до слів з книги "Українська мова без табу".
+Виберіть термін з клавіатури, або введіть слово, і бот надасть синонім, якщо він існує.\
     """, reply_markup=markup)
 
     # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
